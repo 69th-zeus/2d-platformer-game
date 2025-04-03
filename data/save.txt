@@ -1,0 +1,1 @@
+{"coins": 20, "health": 3, "unlocked_level": 1, "current_level": 0}
