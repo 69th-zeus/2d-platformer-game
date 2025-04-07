@@ -4,7 +4,7 @@ from os.path import join
 class Data:
     def __init__(self, ui):
         self.__coins = 0
-        self.__health = 5
+        self.__health = 6
         self.ui = ui
         self.ui.create_hearts(self.__health)
         

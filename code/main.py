@@ -11,7 +11,7 @@ from menu import *
 class Game:
     def __init__(self):
         pygame.init()
-        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.FULLSCREEN)
         self.icon = import_image('graphics', 'ui', 'icon')
         pygame.display.set_caption("Super Pirate World")
         pygame.display.set_icon(self.icon)
