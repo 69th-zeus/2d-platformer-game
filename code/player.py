@@ -48,7 +48,6 @@ class Player(pygame.sprite.Sprite):
         #audio
         self.attack_sound = attack_sound
         self.jump_sound = jump_sound
-        self.jump_sound.set_volume(0.7)
         
     def input(self):
         keys =pygame.key.get_pressed()

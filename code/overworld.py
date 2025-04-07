@@ -20,7 +20,7 @@ class Overworld:
         self.current_node = [node for node in self.node_sprites if node.level == 0][0]
         self.path_frames = overworld_frames['path']
         self.create_path_sprites()
-        self.scene_change = False
+        self.scene_change = [False, '']
         self.trans = pygame.Surface((tmx_map.width * TILE_SIZE, tmx_map.height * TILE_SIZE))
         self.trans.fill('black')
         self.alpha = 0
@@ -138,7 +138,10 @@ class Overworld:
                 self.move('up')
             if keys[pygame.K_RETURN]:
                 # self.data.current_level = self.current_node.level
-                self.scene_change = True
+                self.scene_change = [True, 'level']
+            if keys[pygame.K_RSHIFT] or keys[pygame.K_LSHIFT]:
+                self.scene_change = [True, 'menu']
+                
     
     def move(self, direction):
         path_key = int(self.current_node.paths[direction][0])
@@ -158,15 +161,19 @@ class Overworld:
         self.all_sprites.update(dt)
         self.all_sprites.draw(self.icon.rect.center) #we need a pos here to offset
         
-        if self.scene_change:
+        if self.scene_change[0]:
             if self.alpha == 0:
                 self.change_music("ol")
             self.trans.set_alpha(self.alpha)
             self.trans_rect = self.trans.get_frect()
             self.alpha += 300 * dt
             self.display_surface.blit(self.trans, self.trans_rect)
-            self.text("Going To Level", (640, 300), WHITE, "ST")
+            self.text("Loading...", (640, 300), WHITE, "ST")
             if self.alpha >= TRANSITION_TIME:
-                self.scene_change = False
+                self.scene_change[0] = False
                 self.data.current_level = self.current_node.level
-                self.switch_stage('level', self.data.current_level)
+                if self.scene_change[1] == 'level':
+                    self.switch_stage('level', self.data.current_level)
+                elif self.scene_change[1] == 'menu':
+                    self.switch_stage('menu', self.data.current_level)
+                    

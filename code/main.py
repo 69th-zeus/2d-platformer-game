@@ -6,6 +6,7 @@ from support import *
 from data import *
 from ui import UI
 from overworld import *
+from menu import *
 
 class Game:
     def __init__(self):
@@ -26,12 +27,15 @@ class Game:
                         4:load_pygame(join('data','levels','4.tmx')),
                         5:load_pygame(join('data','levels','5.tmx'))}
         self.tmx_overworld = load_pygame(join('data', 'overworld', 'overworld.tmx'))
-        self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames, self.switch_stage, self.change_music, self.text)
+        # self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames, self.switch_stage, self.change_music, self.text)
+        self.current_stage = Menu(self.switch_stage, self.text, self.data, self.audio_files, self.bg_music)
         self.bg_music.play(-1)
      
     def switch_stage(self, target, unlock = 0):
         if target == 'level':
             self.current_stage = Level(self.tmx_map[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage, self.change_music, self.text)
+        elif target == 'menu':
+            self.current_stage = Menu(self.switch_stage, self.text, self.data, self.audio_files, self.bg_music)
         else: #overworld
             if unlock > 0:
                 self.data.unlocked_level = unlock
@@ -154,7 +158,8 @@ class Game:
             
             self.check_game_over()
             self.current_stage.run(dt)
-            self.ui.update(dt)
+            if type(self.current_stage) != Menu:
+                self.ui.update(dt)
             self.text('fps:'+str(round(self.fps)), (WINDOW_WIDTH - 5,0), 'white','fps')
             pygame.display.update()
             

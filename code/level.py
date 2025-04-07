@@ -47,9 +47,7 @@ class Level:
         
         #audio files
         self.coin_sound =audio_files['coin']
-        self.coin_sound.set_volume(0.4)
         self.damage_sound = audio_files['damage']
-        self.damage_sound.set_volume(0.3)
         self.pearl_sound = audio_files['pearl']
         
         self.trans = pygame.Surface((tmx_map.width * TILE_SIZE, tmx_map.height * TILE_SIZE))
